@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  simple-nginx-deployment
+  labels:
+    app: simple-nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: simple-nginx
+  template:
+    metadata:
+      labels:
+        app: simple-nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        resources:
+          requests:
+            cpu: "100m" # 0.1 CPU core
+            memory: "256Mi"
+          limits:
+            cpu: "500m" # Max 0.5 CPU cores
+            memory: "512Mi"
+        ports:
+        - containerPort: 80
+
+      nodeSelector:
+        cloud.google.com/gke-nodepool: pool-1
